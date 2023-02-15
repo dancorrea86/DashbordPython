@@ -2,13 +2,12 @@ from dash import Dash, dcc, html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import  plotly.express as px
+from dash_bootstrap_templates import load_figure_template
 import pandas as pd
 
 dataframe = pd.read_csv("arquivo_csv/dados.csv", sep=";")
-print(dataframe)
 
-
-app = Dash(__name__, external_stylesheets=[dbc.themes.CYBORG])
+app = Dash(__name__, external_stylesheets=[dbc.themes.LUX])
 
 grafico = dcc.Graph(
     id='meu_grafico',
@@ -76,25 +75,16 @@ dropdown = dcc.Dropdown(
     id='meu_dropdown'
 )
 
-app.layout = html.Div(
-    children=[
-        html.Div(
-            [
-                dbc.Row(
-                    [
-                        dbc.Col(html.H1("Dashboard Gastos")),
-                        dbc.Col(dropdown),
-                    ]
-                ),
-                dbc.Row(
-                    [
-                        html.Div(grafico),
-                    ]
-                ),
-            ]
-        )
-    ]
-)
+app.layout = html.Div([
+    dbc.Row([
+        dbc.Col(html.H1("Dashboard Gastos")),
+        dbc.Col([
+        dbc.Row(dropdown),
+        dbc.Row(grafico)
+    ])    
+    ])
+
+])
 
 
 @app.callback(
